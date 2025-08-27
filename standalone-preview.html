@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Singularity Compliance - Complete Preview</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .preview-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1050;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .preview-content {
+            margin-top: 70px;
+        }
+        .screen-nav {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .screen-nav .btn {
+            margin: 0.2rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+        
+        /* Homepage Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4267cd 0%, #3552a4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+        }
+        
+        /* Auth Styles */
+        .auth-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card, .register-card {
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .login-header, .register-header {
+            background: linear-gradient(135deg, #4267cd 0%, #3552a4 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        /* Pricing Styles */
+        .pricing-card {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        .pricing-header {
+            border-radius: 20px 20px 0 0;
+            padding: 2rem;
+        }
+        .essential-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .professional-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .enterprise-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .price-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #2d3436;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        
+        /* Dashboard Styles */
+        .sidebar {
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        }
+        .admin-sidebar {
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .stat-card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-link.sidebar-nav {
+            color: rgba(255, 255, 255, 0.8) !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            margin: 0.25rem 0;
+            transition: all 0.3s ease;
+        }
+        .nav-link.sidebar-nav:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white !important;
+            transform: translateX(5px);
+        }
+        .nav-link.sidebar-nav.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+        
+        /* Upload Styles */
+        .upload-zone {
+            border: 3px dashed #dee2e6;
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+        .upload-zone:hover {
+            border-color: #4267cd;
+            background: #e3f2fd;
+        }
+        
+        /* Compliance Styles */
+        .compliance-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            border-left: 4px solid transparent;
+        }
+        .compliance-passed { 
+            background: #d4edda; 
+            border-left-color: #28a745; 
+        }
+        .compliance-failed { 
+            background: #f8d7da; 
+            border-left-color: #dc3545; 
+        }
+        .compliance-warning { 
+            background: #fff3cd; 
+            border-left-color: #ffc107; 
+        }
+        
+        /* Stats section */
+        .stats-section {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4267cd;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .screen-nav .btn {
+                font-size: 0.75rem;
+                padding: 0.375rem 0.75rem;
+            }
+            .hero-section {
+                padding: 50px 0;
+            }
+            .price-display {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preview Navigation Bar -->
+    <nav class="navbar navbar-expand-lg preview-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white fw-bold" href="javascript:void(0)" onclick="showScreen('home')">
+                <i class="bi bi-shield-check me-2"></i>
+                Singularity Compliance - Preview Mode
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text text-white-50 me-3">
+                    ✨ Standalone Preview - No Server Required
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="preview-content">
+        <!-- Screen Navigation -->
+        <div class="container mt-3">
+            <div class="screen-nav">
+                <h5 class="mb-3">
+                    <i class="bi bi-display me-2"></i>
+                    Navigate Through All Application Screens
+                </h5>
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-primary" onclick="showScreen('home')">🏠 Homepage</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('login')">🔐 Login</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('register')">📝 Register</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('subscription')">💳 Plans</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('dashboard')">📊 Dashboard</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('upload')">📤 Upload</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('documents')">📁 Documents</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('compliance')">✅ Compliance</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('reports')">📈 Reports</button>
+                    <button class="btn btn-outline-primary" onclick="showScreen('admin')">👨‍💼 Admin</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOMEPAGE SCREEN -->
+        <div id="home-screen" class="screen active">
+            <section class="hero-section">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1 class="display-4 fw-bold mb-4">Compliance Made Simple</h1>
+                            <p class="lead mb-4">
+                                Streamline your document compliance with AI-powered checking, 
+                                folder structure validation, and comprehensive reporting tools.
+                            </p>
+                            <div class="d-flex gap-3 mb-4">
+                                <button class="btn btn-light btn-lg" onclick="showScreen('register')">
+                                    <i class="bi bi-rocket-takeoff me-2"></i>Start Free Trial
+                                </button>
+                                <button class="btn btn-outline-light btn-lg" onclick="showScreen('subscription')">
+                                    <i class="bi bi-play-circle me-2"></i>View Plans
+                                </button>
+                            </div>
+                            <div class="d-flex align-items-center gap-4 text-white-50">
+                                <small><i class="bi bi-check-circle me-1"></i>14-day free trial</small>
+                                <small><i class="bi bi-check-circle me-1"></i>No credit card required</small>
+                                <small><i class="bi bi-check-circle me-1"></i>Cancel anytime</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 text-center">
+                            <div class="bg-white bg-opacity-10 p-4 rounded-3">
+                                <i class="bi bi-shield-check display-1 text-white mb-3"></i>
+                                <h4 class="text-white">Enterprise-Grade Security</h4>
+                                <p class="text-white-50">Your documents are protected with bank-level encryption</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-5">
+                <div class="container">
+                    <div class="text-center mb-5">
+                        <h2 class="display-5 fw-bold">Powerful Compliance Features</h2>
+                        <p class="lead text-muted">Everything you need to ensure document compliance</p>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-file-check text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>Document Validation</h4>
+                                <p class="text-muted">
+                                    Automatically validate PDF, DOC, XML, and other document formats 
+                                    against your compliance standards.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-folder-check text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>Folder Structure Analysis</h4>
+                                <p class="text-muted">
+                                    Scan and validate folder structures, naming conventions, 
+                                    and organizational standards automatically.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-graph-up text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>Advanced Analytics</h4>
+                                <p class="text-muted">
+                                    Get detailed reports, compliance scores, and insights 
+                                    to improve your documentation processes.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-robot text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>AI-Powered Suggestions</h4>
+                                <p class="text-muted">
+                                    Leverage artificial intelligence to get smart recommendations 
+                                    for compliance improvements.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-award text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>ISO Standards</h4>
+                                <p class="text-muted">
+                                    Built-in support for ISO 9001, 27001, 14001, and other 
+                                    international compliance standards.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6">
+                            <div class="feature-card bg-white">
+                                <div class="feature-icon">
+                                    <i class="bi bi-cloud text-white" style="font-size: 2rem;"></i>
+                                </div>
+                                <h4>Hybrid Deployment</h4>
+                                <p class="text-muted">
+                                    Choose between cloud-hosted or on-premises deployment 
+                                    to meet your security requirements.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="container">
+                    <div class="row text-center g-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stat-number">10K+</div>
+                            <p class="text-muted">Documents Processed</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stat-number">500+</div>
+                            <p class="text-muted">Organizations Trust Us</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stat-number">99.9%</div>
+                            <p class="text-muted">Uptime Guarantee</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="stat-number">24/7</div>
+                            <p class="text-muted">Support Available</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- LOGIN SCREEN -->
+        <div id="login-screen" class="screen">
+            <div class="auth-bg">
+                <div class="row w-100 justify-content-center">
+                    <div class="col-md-5 col-lg-4">
+                        <div class="card login-card border-0">
+                            <div class="card-header login-header text-center py-4">
+                                <h3 class="mb-0">
+                                    <i class="bi bi-shield-check me-2"></i>
+                                    Singularity Compliance
+                                </h3>
+                                <p class="mb-0 mt-2">Sign in to your account</p>
+                            </div>
+                            <div class="card-body p-4">
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-envelope me-1"></i>Email Address
+                                        </label>
+                                        <input type="email" class="form-control form-control-lg" 
+                                               placeholder="Enter your email">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-lock me-1"></i>Password
+                                        </label>
+                                        <input type="password" class="form-control form-control-lg" 
+                                               placeholder="Enter password">
+                                    </div>
+                                    
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">Remember me</label>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary btn-lg w-100 mb-3" 
+                                            onclick="showAlert('Demo: Would authenticate and redirect to dashboard')">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                    </button>
+                                </form>
+                                
+                                <div class="text-center">
+                                    <a href="javascript:void(0)" class="text-decoration-none">
+                                        <i class="bi bi-question-circle me-1"></i>Forgot your password?
+                                    </a>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="text-center">
+                                    <p class="mb-2">Don't have an account?</p>
+                                    <button class="btn btn-outline-primary" onclick="showScreen('register')">
+                                        <i class="bi bi-person-plus me-2"></i>Create Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGISTER SCREEN -->
+        <div id="register-screen" class="screen">
+            <div class="auth-bg">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card register-card border-0">
+                            <div class="card-header register-header text-center py-4">
+                                <h3 class="mb-0">
+                                    <i class="bi bi-shield-check me-2"></i>
+                                    Join Singularity Compliance
+                                </h3>
+                                <p class="mb-0 mt-2">Start your compliance journey today</p>
+                            </div>
+                            <div class="card-body p-4">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="bi bi-person me-1"></i>First Name *
+                                            </label>
+                                            <input type="text" class="form-control" placeholder="John">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="bi bi-person me-1"></i>Last Name *
+                                            </label>
+                                            <input type="text" class="form-control" placeholder="Smith">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-envelope me-1"></i>Email Address *
+                                        </label>
+                                        <input type="email" class="form-control" placeholder="john@company.com">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-building me-1"></i>Organization Name *
+                                        </label>
+                                        <input type="text" class="form-control" placeholder="Acme Corporation">
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="bi bi-lock me-1"></i>Password *
+                                            </label>
+                                            <input type="password" class="form-control" placeholder="Password">
+                                            <div class="form-text">Minimum 8 characters</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">
+                                                <i class="bi bi-lock me-1"></i>Confirm Password *
+                                            </label>
+                                            <input type="password" class="form-control" placeholder="Confirm">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input">
+                                            <label class="form-check-label">
+                                                I agree to the <a href="#">Terms of Service</a> 
+                                                and <a href="#">Privacy Policy</a> *
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary btn-lg w-100 mb-3"
+                                            onclick="showAlert('Demo: Would create account and redirect to dashboard')">
+                                        <i class="bi bi-person-plus me-2"></i>Create Account
+                                    </button>
+                                </form>
+                                
+                                <div class="text-center">
+                                    <p class="mb-0">Already have an account?</p>
+                                    <button class="btn btn-outline-primary mt-2" onclick="showScreen('login')">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBSCRIPTION SCREEN -->
+        <div id="subscription-screen" class="screen">
+            <div class="container py-5">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary mb-3">Choose Your Plan</h1>
+                    <p class="lead text-muted">Select the perfect compliance solution for your organization</p>
+                </div>
+
+                <div class="row g-4 justify-content-center">
+                    <!-- Essential Plan -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card pricing-card border-0">
+                            <div class="pricing-header essential-header text-white text-center">
+                                <h3 class="fw-bold mb-0">Essential</h3>
+                                <p class="mb-3">Perfect for small teams</p>
+                                <div class="price-display">$9.99</div>
+                                <div style="color: rgba(255,255,255,0.8);">per month</div>
+                            </div>
+                            <div class="card-body p-4">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Basic compliance checking
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Up to 100 documents/month
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Standard file formats (PDF, DOC, DOCX)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Basic reporting
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Email support
+                                    </li>
+                                </ul>
+                                <button class="btn btn-primary btn-lg w-100" 
+                                        onclick="showAlert('Demo: Would redirect to payment for Essential plan')">
+                                    <i class="bi bi-arrow-right-circle me-2"></i>Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Plan -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card pricing-card border-0 position-relative">
+                            <div class="popular-badge">
+                                <i class="bi bi-star-fill me-1"></i>Most Popular
+                            </div>
+                            <div class="pricing-header professional-header text-white text-center">
+                                <h3 class="fw-bold mb-0">Professional</h3>
+                                <p class="mb-3">Great for growing businesses</p>
+                                <div class="price-display">$19.99</div>
+                                <div style="color: rgba(255,255,255,0.8);">per month</div>
+                            </div>
+                            <div class="card-body p-4">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Advanced compliance checking
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Up to 1,000 documents/month
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Extended file formats (XML, CSV, images)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Custom compliance rules (5 rules)
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Advanced analytics & dashboards
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Priority email support
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        API access
+                                    </li>
+                                </ul>
+                                <button class="btn btn-primary btn-lg w-100" 
+                                        onclick="showAlert('Demo: Would redirect to payment for Professional plan')">
+                                    <i class="bi bi-arrow-right-circle me-2"></i>Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card pricing-card border-0">
+                            <div class="pricing-header enterprise-header text-white text-center">
+                                <h3 class="fw-bold mb-0">Enterprise</h3>
+                                <p class="mb-3">For large organizations</p>
+                                <div class="price-display">$199.99</div>
+                                <div style="color: rgba(255,255,255,0.8);">per month</div>
+                            </div>
+                            <div class="card-body p-4">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Unlimited compliance checking
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Unlimited documents
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        All file formats supported
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Unlimited custom compliance rules
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        AI-powered compliance suggestions
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        White-label options
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Dedicated account manager
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        Phone & email support
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        On-premises deployment option
+                                    </li>
+                                </ul>
+                                <button class="btn btn-primary btn-lg w-100" 
+                                        onclick="showAlert('Demo: Would contact enterprise sales team')">
+                                    <i class="bi bi-arrow-right-circle me-2"></i>Contact Sales
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD SCREEN -->
+        <div id="dashboard-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <!-- Sidebar -->
+                    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">
+                                    <i class="bi bi-shield-check me-2"></i>
+                                    Singularity
+                                </h4>
+                                <small class="text-white-50">Welcome, John Smith</small>
+                            </div>
+                            
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('upload')">
+                                        <i class="bi bi-cloud-upload me-2"></i>Upload Documents
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('documents')">
+                                        <i class="bi bi-files me-2"></i>My Documents
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('compliance')">
+                                        <i class="bi bi-check-square me-2"></i>Compliance
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('reports')">
+                                        <i class="bi bi-graph-up me-2"></i>Reports
+                                    </a>
+                                </li>
+                                <li class="nav-item mt-3">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('subscription')">
+                                        <i class="bi bi-credit-card me-2"></i>Subscription
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <!-- Main content -->
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Dashboard</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button class="btn btn-sm btn-primary" onclick="showScreen('upload')">
+                                    <i class="bi bi-cloud-upload me-1"></i>Upload Documents
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Subscription Status -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card border-info">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="card-title text-info mb-1">Current Plan: Professional</h6>
+                                                <p class="card-text mb-0">
+                                                    <small class="text-muted">89/1,000 documents this month</small>
+                                                </p>
+                                            </div>
+                                            <button class="btn btn-outline-info btn-sm" onclick="showScreen('subscription')">
+                                                Upgrade
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistics Cards -->
+                        <div class="row mb-4">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-primary">
+                                                <i class="bi bi-files text-white fs-4"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <div class="fs-4 fw-bold text-primary">247</div>
+                                                <small class="text-muted">Documents Uploaded</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-success">
+                                                <i class="bi bi-check-circle text-white fs-4"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <div class="fs-4 fw-bold text-success">1,247</div>
+                                                <small class="text-muted">Compliance Checks</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-warning">
+                                                <i class="bi bi-exclamation-triangle text-white fs-4"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <div class="fs-4 fw-bold text-warning">8</div>
+                                                <small class="text-muted">Issues Found</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon bg-info">
+                                                <i class="bi bi-calendar-month text-white fs-4"></i>
+                                            </div>
+                                            <div class="ms-3">
+                                                <div class="fs-4 fw-bold text-info">89</div>
+                                                <small class="text-muted">This Month</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Recent Documents</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Document</th>
+                                                        <th>Size</th>
+                                                        <th>Status</th>
+                                                        <th>Uploaded</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <i class="bi bi-file-earmark-pdf me-2"></i>
+                                                            Company_Policy_2024.pdf
+                                                        </td>
+                                                        <td>2.1 MB</td>
+                                                        <td>
+                                                            <span class="badge bg-success">Completed</span>
+                                                        </td>
+                                                        <td>Dec 15, 2024</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <i class="bi bi-file-earmark-text me-2"></i>
+                                                            Procedure_Manual.docx
+                                                        </td>
+                                                        <td>1.5 MB</td>
+                                                        <td>
+                                                            <span class="badge bg-warning">Processing</span>
+                                                        </td>
+                                                        <td>Dec 14, 2024</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <i class="bi bi-file-earmark-text me-2"></i>
+                                                            ISO_Standards.docx
+                                                        </td>
+                                                        <td>3.2 MB</td>
+                                                        <td>
+                                                            <span class="badge bg-success">Completed</span>
+                                                        </td>
+                                                        <td>Dec 13, 2024</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Quick Actions</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary" onclick="showScreen('upload')">
+                                                <i class="bi bi-cloud-upload me-2"></i>Upload Documents
+                                            </button>
+                                            <button class="btn btn-outline-success" onclick="showScreen('compliance')">
+                                                <i class="bi bi-check-square me-2"></i>Run Compliance Check
+                                            </button>
+                                            <button class="btn btn-outline-info" onclick="showScreen('reports')">
+                                                <i class="bi bi-graph-up me-2"></i>Generate Report
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPLOAD SCREEN -->
+        <div id="upload-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">Singularity</h4>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('dashboard')">
+                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-cloud-upload me-2"></i>Upload Documents
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Upload Documents</h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="upload-zone" onclick="showAlert('Demo: File picker would open here')">
+                                            <i class="bi bi-cloud-upload display-1 text-muted mb-3"></i>
+                                            <h4>Drag & Drop Files Here</h4>
+                                            <p class="text-muted">Or click to browse files</p>
+                                            <button class="btn btn-primary">
+                                                <i class="bi bi-folder me-2"></i>Browse Files
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6>Upload Guidelines</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Max file size: 100MB</li>
+                                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Supported: PDF, DOC, DOCX, XML</li>
+                                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Batch upload available</li>
+                                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Auto virus scanning</li>
+                                            <li class="mb-2"><i class="bi bi-check text-success me-2"></i>Compliance check on upload</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENTS SCREEN -->
+        <div id="documents-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">Singularity</h4>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('dashboard')">
+                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-files me-2"></i>My Documents
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">My Documents</h1>
+                            <div>
+                                <button class="btn btn-outline-secondary me-2">
+                                    <i class="bi bi-funnel me-1"></i>Filter
+                                </button>
+                                <button class="btn btn-primary" onclick="showScreen('upload')">
+                                    <i class="bi bi-cloud-upload me-1"></i>Upload
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Document</th>
+                                                <th>Size</th>
+                                                <th>Status</th>
+                                                <th>Compliance</th>
+                                                <th>Uploaded</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i class="bi bi-file-earmark-pdf text-danger me-2"></i>
+                                                    Company_Policy_2024.pdf
+                                                </td>
+                                                <td>2.1 MB</td>
+                                                <td><span class="badge bg-success">Completed</span></td>
+                                                <td><span class="badge bg-success">Passed</span></td>
+                                                <td>Dec 15, 2024</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Download">
+                                                            <i class="bi bi-download"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-danger" title="Delete">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                                                    Procedure_Manual.docx
+                                                </td>
+                                                <td>1.5 MB</td>
+                                                <td><span class="badge bg-warning">Processing</span></td>
+                                                <td><span class="badge bg-secondary">Pending</span></td>
+                                                <td>Dec 14, 2024</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Download">
+                                                            <i class="bi bi-download"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i class="bi bi-file-earmark-text text-warning me-2"></i>
+                                                    ISO_Report.docx
+                                                </td>
+                                                <td>3.2 MB</td>
+                                                <td><span class="badge bg-success">Completed</span></td>
+                                                <td><span class="badge bg-warning">Warning</span></td>
+                                                <td>Dec 13, 2024</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Download">
+                                                            <i class="bi bi-download"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-danger" title="Delete">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPLIANCE SCREEN -->
+        <div id="compliance-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">Singularity</h4>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('dashboard')">
+                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-check-square me-2"></i>Compliance
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Compliance Dashboard</h1>
+                            <button class="btn btn-primary" 
+                                    onclick="showAlert('Demo: Would run compliance check on all documents')">
+                                <i class="bi bi-play-circle me-1"></i>Run Check
+                            </button>
+                        </div>
+
+                        <!-- Compliance Summary -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h3 class="text-success">85%</h3>
+                                        <p class="text-muted">Overall Compliance Score</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">247</h3>
+                                        <p class="text-muted">Documents Checked</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h3 class="text-warning">8</h3>
+                                        <p class="text-muted">Issues Found</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compliance Issues -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Recent Compliance Checks</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="compliance-item compliance-passed">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>Company_Policy_2024.pdf</strong>
+                                            <br><small class="text-muted">PDF Format Validation</small>
+                                        </div>
+                                        <div class="text-success">
+                                            <i class="bi bi-check-circle-fill me-2"></i>PASSED
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="compliance-item compliance-warning">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>ISO_Report.docx</strong>
+                                            <br><small class="text-muted">Document naming convention check</small>
+                                        </div>
+                                        <div class="text-warning">
+                                            <i class="bi bi-exclamation-triangle-fill me-2"></i>WARNING
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">Document name doesn't follow ISO naming standard</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="compliance-item compliance-failed">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>old_document.doc</strong>
+                                            <br><small class="text-muted">File format validation</small>
+                                        </div>
+                                        <div class="text-danger">
+                                            <i class="bi bi-x-circle-fill me-2"></i>FAILED
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">Legacy format not supported in current policy</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- REPORTS SCREEN -->
+        <div id="reports-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">Singularity</h4>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)" onclick="showScreen('dashboard')">
+                                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-graph-up me-2"></i>Reports
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Reports & Analytics</h1>
+                            <button class="btn btn-primary" 
+                                    onclick="showAlert('Demo: Would open report generator')">
+                                <i class="bi bi-plus-circle me-1"></i>Generate Report
+                            </button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Compliance Trends</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="complianceChart" style="height: 300px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Recent Reports</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="list-group list-group-flush">
+                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>Monthly Compliance Report</strong>
+                                                    <br><small class="text-muted">December 2024</small>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-primary">Download</button>
+                                            </div>
+                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>ISO Audit Summary</strong>
+                                                    <br><small class="text-muted">November 2024</small>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-primary">Download</button>
+                                            </div>
+                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>Document Analysis</strong>
+                                                    <br><small class="text-muted">October 2024</small>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-primary">Download</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN SCREEN -->
+        <div id="admin-screen" class="screen">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar">
+                        <div class="position-sticky pt-3">
+                            <div class="text-center mb-4">
+                                <h4 class="text-white">Admin Panel</h4>
+                            </div>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav active" href="javascript:void(0)">
+                                        <i class="bi bi-speedometer2 me-2"></i>Overview
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)">
+                                        <i class="bi bi-building me-2"></i>Organizations
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link sidebar-nav" href="javascript:void(0)">
+                                        <i class="bi bi-people me-2"></i>Users
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">
+                                <i class="bi bi-speedometer2 me-2 text-primary"></i>
+                                System Administration
+                            </h1>
+                        </div>
+
+                        <!-- Admin Stats -->
+                        <div class="row mb-4">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card text-center">
+                                    <div class="card-body">
+                                        <div class="stat-icon bg-primary mx-auto mb-2">
+                                            <i class="bi bi-building text-white fs-3"></i>
+                                        </div>
+                                        <h3 class="text-primary fw-bold">24</h3>
+                                        <p class="text-muted mb-0">Organizations</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card text-center">
+                                    <div class="card-body">
+                                        <div class="stat-icon bg-success mx-auto mb-2">
+                                            <i class="bi bi-people text-white fs-3"></i>
+                                        </div>
+                                        <h3 class="text-success fw-bold">147</h3>
+                                        <p class="text-muted mb-0">Active Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card text-center">
+                                    <div class="card-body">
+                                        <div class="stat-icon bg-warning mx-auto mb-2">
+                                            <i class="bi bi-files text-white fs-3"></i>
+                                        </div>
+                                        <h3 class="text-warning fw-bold">8,432</h3>
+                                        <p class="text-muted mb-0">Documents</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card stat-card text-center">
+                                    <div class="card-body">
+                                        <div class="stat-icon bg-info mx-auto mb-2">
+                                            <i class="bi bi-check-square text-white fs-3"></i>
+                                        </div>
+                                        <h3 class="text-info fw-bold">12,845</h3>
+                                        <p class="text-muted mb-0">Checks</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Organizations Table -->
+                        <div class="card">
+                            <div class="card-header bg-white border-0 pb-0">
+                                <h5 class="card-title">
+                                    <i class="bi bi-building me-2 text-primary"></i>
+                                    Organizations Overview
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Organization</th>
+                                                <th>Plan</th>
+                                                <th>Users</th>
+                                                <th>Documents</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 40px; height: 40px;" class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                            <i class="bi bi-building text-white"></i>
+                                                        </div>
+                                                        <div>
+                                                            <strong>Acme Corporation</strong>
+                                                            <br><small class="text-muted">Since Jan 2024</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark" style="font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 50px;">
+                                                        Enterprise
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <strong>25</strong>
+                                                    <br><small class="text-muted">users</small>
+                                                </td>
+                                                <td>
+                                                    <strong>1,247</strong>
+                                                    <br><small class="text-muted">docs</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success">Active</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View Details">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Edit">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-info" title="Reports">
+                                                            <i class="bi bi-graph-up"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 40px; height: 40px;" class="bg-success rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                            <i class="bi bi-building text-white"></i>
+                                                        </div>
+                                                        <div>
+                                                            <strong>Tech Solutions Inc</strong>
+                                                            <br><small class="text-muted">Since Feb 2024</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary" style="font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 50px;">
+                                                        Professional
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <strong>8</strong>
+                                                    <br><small class="text-muted">users</small>
+                                                </td>
+                                                <td>
+                                                    <strong>423</strong>
+                                                    <br><small class="text-muted">docs</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success">Active</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View Details">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Edit">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-info" title="Reports">
+                                                            <i class="bi bi-graph-up"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 40px; height: 40px;" class="bg-info rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                            <i class="bi bi-building text-white"></i>
+                                                        </div>
+                                                        <div>
+                                                            <strong>Small Business LLC</strong>
+                                                            <br><small class="text-muted">Since Mar 2024</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-secondary" style="font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 50px;">
+                                                        Essential
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <strong>3</strong>
+                                                    <br><small class="text-muted">users</small>
+                                                </td>
+                                                <td>
+                                                    <strong>89</strong>
+                                                    <br><small class="text-muted">docs</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark">Trial</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" title="View Details">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary" title="Edit">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-info" title="Reports">
+                                                            <i class="bi bi-graph-up"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Screen management
+        function showScreen(screenName) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenName + '-screen').classList.add('active');
+            
+            // Update navigation buttons
+            document.querySelectorAll('.screen-nav .btn').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline-primary');
+            });
+            
+            // Highlight active button
+            event.target.classList.remove('btn-outline-primary');
+            event.target.classList.add('btn-primary');
+            
+            // Initialize chart if reports screen
+            if (screenName === 'reports') {
+                setTimeout(initChart, 100);
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Alert function for demo interactions
+        function showAlert(message) {
+            alert(message);
+        }
+        
+        // Initialize compliance chart
+        function initChart() {
+            const canvas = document.getElementById('complianceChart');
+            if (canvas && !canvas.chart) {
+                const ctx = canvas.getContext('2d');
+                canvas.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Compliance Score (%)',
+                            data: [75, 82, 80, 85, 88, 85],
+                            borderColor: '#4267cd',
+                            backgroundColor: 'rgba(66, 103, 205, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { display: true, color: '#f1f1f1' }
+                            },
+                            x: {
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial active button
+            document.querySelector('.screen-nav .btn').classList.add('btn-primary');
+            document.querySelector('.screen-nav .btn').classList.remove('btn-outline-primary');
+        });
+    </script>
+</body>
+</html>
