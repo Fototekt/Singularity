@@ -1,0 +1,67 @@
+@charset "UTF-8";
+/*------------------------------------------------------------------
+[Master Stylesheet]
+
+Project:		Arise Admin Dashboard
+Version:		1.0
+-------------------------------------------------------------------*/
+/*------------------------------------------------------------------
+[Table of Contents]
+
+1. Importing Sass Variables
+2. Importing Web Fonts
+	2.1 Rubik Mono One Font
+3. Body CSS
+4. Loading CSS
+5. Re Usable Styles
+	5.1 Anchor Reset
+	5.2 HR
+	5.3 Unorder List
+	5.4 Headings
+	5.5 Images
+	5.6 Background Colors
+    5.7 Border Colors
+	5.9 Text Colors
+6. Layout CSS
+	6.1 Page Wrapper
+	6.2 Sidebar Wrapper
+	6.3 Main Container
+	6.4 Page Header
+    6.5 Welcome Note
+	6.6 Search Container
+	6.7 Leads Dropdown
+    6.8 Header Ations
+	6.9 Header Profile Actions
+	6.10 Breadcrumb Container
+	6.11 Content Wrapper
+	6.12 App Footer
+7. Country Dropdown
+8. Components/Widgets
+	8.1 Button Icon
+	8.2 Custom Button Group
+	8.3 Custom Icon Group
+	8.4 Custom Badge Group
+	8.5 Chart Heights
+	8.6 Card Heights
+	8.7 Number Stats
+    8.8 Notifications Container
+	8.9 Stats Tiles
+	8.10 Reports Summary
+    8.11 Day Selection
+	8.12 Activities
+	8.13 Header Drops
+	8.14 Circle Tile
+	8.15 Input Groups
+	8.16 Custom File Container
+	8.17 Tasks Container
+    8.18 Invoice List
+	8.19 Order/s Styles
+	8.20 Customers Table
+    8.21 Logout Container
+9. Page Scrolling
+10. Tooltip
+11. Sidebar Collapse
+12. Font Sizes
+-------------------------------------------------------------------*/
+
+/* CSS content continues from the original file */
