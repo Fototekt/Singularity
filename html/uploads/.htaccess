@@ -1,0 +1,14 @@
+# Disable script execution in uploads directory
+Options -ExecCGI
+AddHandler cgi-script .php .pl .py .jsp .asp .sh .cgi
+Options -Indexes
+
+# Only allow image files
+<FilesMatch "\.(jpg|jpeg|png|gif)$">
+    Allow from all
+</FilesMatch>
+
+# Deny everything else
+<FilesMatch "\.">
+    Deny from all
+</FilesMatch>
