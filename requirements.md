@@ -1,175 +1,210 @@
-# Student Profile & Goal Tracking System - Requirements Document
+# Compliance Checking SaaS - Requirements Document
 
 ## Project Overview
 
-A web-based application that enables educators to track student goals, interests, and skill levels through surveys and resume uploads, providing insights for personalized learning experiences.
+A web-hosted and locally-hosted SaaS product that reviews client practices and provides comprehensive compliance checking. The system validates:
+- Document folder structures and file naming conventions
+- File format requirements for all document types (PDF, DOC, XML, etc.)
+- ISO compliance standards
+- Code compliance standards
+- Custom compliance rules based on organizational practices
+
+**Target Audience**: Corporations with audit requirements for shareholder clarity and regulatory compliance.
 
 ## Implementation Approach (Per CLAUDE.md)
 
 ### Simplicity First
-- Start with core features only
-- Use simple, proven technologies
-- Minimize external dependencies
+- Start with core compliance checking features
+- Use proven technologies with AI integration
+- Minimize external dependencies while supporting AI components
 - Build incrementally with small, testable changes
 - Document all decisions in docs/activity.md
 
 ### Development Phases
-1. **Phase 1 - Core MVP**: Basic authentication, profile creation, file upload
-2. **Phase 2 - Surveys**: Simple survey creation and response collection
-3. **Phase 3 - Analytics**: Basic reporting and visualization
-4. **Phase 4 - Enhancements**: Additional features as needed
+1. **Phase 1 - Core MVP**: Authentication, subscription system, basic file upload and validation
+2. **Phase 2 - Compliance Engine**: Document analysis, folder structure validation, basic reporting
+3. **Phase 3 - AI Integration**: MCP servers, AI agents for advanced compliance analysis
+4. **Phase 4 - Enterprise Features**: Custom rules, white-label options, on-premises deployment
 
 ## User Roles
 
-### 1. Teacher/Instructor
-- Full access to all student data within their classes
-- Can create and manage surveys
-- Can view analytics and reports
-- Can create student groups
+### 1. System Administrator
+- Full system access and configuration
+- User management across all organizations
+- System monitoring and maintenance
+- Subscription and billing management
 
-### 2. Student
-- Can view and edit their own profile
-- Can complete assigned surveys
-- Can upload and manage their resume
-- Can view their own progress
+### 2. Organization Admin
+- Manage organization settings and users
+- Configure compliance rules for their organization
+- Access to all organization compliance data
+- User role assignments within organization
 
-### 3. Administrator (Optional)
-- System-wide access
-- User management capabilities
-- System configuration
+### 3. Compliance Manager
+- Create and manage compliance rules
+- Set up document validation standards
+- Configure folder structure requirements
+- Review compliance reports and analytics
+
+### 4. Analyst
+- Run compliance checks on documents and folders
+- Generate and view compliance reports
+- Access analytics dashboards
+- Export compliance data
+
+### 5. End User
+- Basic compliance checking functionality
+- Upload documents for validation
+- View personal compliance reports
+- Limited access to basic features
 
 ## Functional Requirements
 
 ### 1. Authentication & Authorization
 
 #### 1.1 User Registration
-- Teachers can create accounts with institutional email
-- Students receive invitation links to join classes
+- Organization admins can create accounts with corporate email
+- Users receive invitation links to join organizations
 - Email verification required
+- Corporate domain validation
 
 #### 1.2 Login System
 - Secure login with email/password
-- Session management
+- Multi-factor authentication (MFA) support
+- Session management with timeout
 - Password reset functionality
 - Remember me option
+- Single Sign-On (SSO) integration
 
 #### 1.3 Role-Based Access Control
-- Teachers can only access their own classes
-- Students can only access their own data
+- Users can only access data within their organization
+- Role-based permissions for compliance features
 - Proper authorization checks on all endpoints
+- Audit trails for access attempts
 
-### 2. Student Profile Management
+### 2. Subscription Management
 
-#### 2.1 Profile Creation
-**Required fields:**
-- Full name
-- Email address
-- Student ID (optional)
-- Year/Grade level
-- Major/Program
+#### 2.1 Subscription Tiers
+**Essential - $9.99/month:**
+- Basic compliance checking
+- Up to 100 documents/month
+- Standard file formats (PDF, DOC, DOCX)
+- Basic reporting
+- Email support
 
-**Optional fields:**
-- Profile photo
-- Bio/About me
-- Contact preferences
+**Professional - $19.99/month:**
+- Advanced compliance checking
+- Up to 1,000 documents/month
+- Extended file formats (XML, CSV, TXT, images)
+- Custom compliance rules (5 rules)
+- Advanced analytics & dashboards
+- Priority email support
+- API access
 
-#### 2.2 Goals Section
-- Short-term goals (current semester/year)
-- Long-term goals (career aspirations)
-- Academic goals vs. personal development goals
-- Goal priority levels (high/medium/low)
-- Target completion dates
+**Enterprise - $199.99/month:**
+- Unlimited compliance checking
+- Unlimited documents
+- All file formats supported
+- Unlimited custom compliance rules
+- AI-powered compliance suggestions
+- White-label options
+- Dedicated account manager
+- Phone & email support
+- On-premises deployment option
+- Integration support
 
-#### 2.3 Skills Inventory
-**Predefined skill categories:**
-- Technical skills
-- Soft skills
-- Language proficiencies
-- Tools/Software knowledge
+#### 2.2 Billing & Payment
+- Stripe integration for payment processing
+- Monthly and annual billing cycles
+- Automatic subscription renewal
+- Usage tracking and overage billing
+- Invoice generation and history
+- Tax calculation support
 
-**Features:**
-- Skill proficiency levels (1-5 scale or beginner/intermediate/advanced)
-- Self-assessed vs. verified skills
-- Date skill was acquired/updated
+### 3. Document Upload & Management
 
-#### 2.4 Interests & Activities
-- Academic interests
-- Extracurricular activities
-- Hobbies
-- Preferred learning styles
-- Industry interests
+#### 3.1 File Upload System
+- Drag-and-drop interface
+- Batch upload capabilities
+- Progress tracking for uploads
+- File size validation (up to 100MB per file)
+- Virus scanning before processing
+- Secure file storage with encryption
 
-### 3. Survey System
+#### 3.2 Supported File Types
+**Essential Tier:**
+- PDF documents
+- Microsoft Word (DOC, DOCX)
+- Text files (TXT)
 
-#### 3.1 Survey Creation
-- Survey builder interface with drag-and-drop
-- **Question types:**
-  - Multiple choice (single/multiple selection)
-  - Rating scales (1-5, 1-10, Likert)
-  - Short text responses
-  - Long text responses
-  - Yes/No questions
-  - Date/Time questions
-- Question logic (conditional questions)
-- Required vs. optional questions
+**Professional Tier:**
+- All Essential formats plus:
+- XML files
+- CSV files
+- Image files (JPG, PNG, GIF)
+- PowerPoint (PPT, PPTX)
+- Excel (XLS, XLSX)
 
-#### 3.2 Survey Templates
-**Pre-built templates:**
-- Beginning of term assessment
-- Mid-term check-in
-- End of term reflection
-- Project team preferences
-- Skill self-assessment
+**Enterprise Tier:**
+- All Professional formats plus:
+- CAD files (DWG, DXF)
+- Archive files (ZIP, RAR)
+- Source code files
+- Custom format support
 
-**Features:**
-- Custom template creation
-- Template sharing between teachers
+#### 3.3 Folder Structure Analysis
+- Directory tree scanning
+- Folder naming convention validation
+- Hierarchical structure checking
+- Missing folder detection
+- Duplicate file identification
 
-#### 3.3 Survey Distribution
-- Assign surveys to specific classes
-- Set open/close dates
-- Send email notifications
-- Track completion status
-- Send reminders to non-completers
+### 4. Compliance Rule Engine
 
-#### 3.4 Response Collection
-- Auto-save progress
-- Allow students to save and return
-- Validate responses before submission
-- Confirmation upon completion
+#### 4.1 Rule Creation & Management
+- Visual rule builder interface
+- Drag-and-drop rule components
+- Pre-built rule templates for common standards
+- Custom rule creation
+- Rule versioning and history
+- Rule testing and validation
 
-### 4. Resume Management
+#### 4.2 Document Content Validation
+**PDF Analysis:**
+- Text extraction and analysis
+- Metadata validation
+- Digital signature verification
+- PDF/A compliance checking
+- Security settings validation
 
-#### 4.1 File Upload
-- Accepted formats: PDF, DOCX, DOC
-- File size limit: 10MB
-- Virus scanning
-- File storage with encryption
+**Microsoft Office Documents:**
+- Content structure validation
+- Metadata compliance checking
+- Template adherence verification
+- Version control validation
+- Track changes analysis
 
-#### 4.2 Resume Parsing
-**Extract key information:**
-- Contact details
-- Education history
-- Work experience
-- Skills
-- Certifications
-- Projects
+**XML Documents:**
+- Schema validation
+- Well-formedness checking
+- Custom element validation
+- Namespace compliance
 
-**Features:**
-- Handle multiple resume formats
-- Confidence scoring for extracted data
+#### 4.3 Naming Convention Validation
+- File naming pattern matching
+- Date format validation
+- Version numbering checks
+- Special character restrictions
+- Case sensitivity rules
+- Length restrictions
 
-#### 4.3 Data Integration
-- Map parsed data to profile fields
-- Flag conflicts with existing data
-- Allow manual review and editing
-- Maintain parsing history
-
-#### 4.4 Version Control
-- Store multiple resume versions
-- Track upload dates
-- Allow students to set primary resume
-- Compare versions
+#### 4.4 ISO Compliance Standards
+- ISO 9001 document control
+- ISO 27001 information security
+- ISO 14001 environmental management
+- Custom ISO standard rules
+- Certificate validation
+- Audit trail requirements
 
 ### 5. Analytics & Reporting
 
